@@ -14,6 +14,9 @@ class ViewController: NSViewController {
 
     let swiftTokenizer = SwiftTokenizer()
     let kotlinTokenizer = KotlinTokenizer(
+        sourceTransformPlugins: [
+            GeneratedHeaderCommentPlugin()
+        ],
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
             FoundationMethodsTransformPlugin()

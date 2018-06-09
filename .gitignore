@@ -69,6 +69,7 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
+SwiftKotlin.xcodeproj/project.xcworkspace/xcshareddata/
 
 ## Other
 *.moved-aside
