@@ -26,7 +26,6 @@ public class KotlinOnlyCodeFromComment : TokenTransformPlugin {
         var newTokens = [Token]()
         
         for token in tokens {
-            print("\(token.kind) - \(token.value)")
             if token.kind == .comment,
                 let origin = token.origin, let node = token.node,
                 let stringGroups = extractedLineValue(token.value,keyword: kotlinKeyword),

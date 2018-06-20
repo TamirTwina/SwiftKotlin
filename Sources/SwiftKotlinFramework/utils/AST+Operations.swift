@@ -173,11 +173,31 @@ extension ExplicitMemberExpression {
     }
 }
 
+extension EnumDeclaration.RawValueStyleEnumCase.Case.RawValueLiteral {
+    var value: String {
+        switch self {
+        case .string(let str):
+            return str
+        default:
+            return ""
+        }
+    }
+}
+
 extension EnumDeclaration.Member {
     
     var unionStyleEnumCase: EnumDeclaration.UnionStyleEnumCase? {
         switch self {
         case .union(let enumCase):
+            return enumCase
+        default:
+            return nil
+        }
+    }
+    
+    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
+        switch self {
+        case .rawValue(let enumCase):
             return enumCase
         default:
             return nil

@@ -15,7 +15,7 @@ class ViewController: NSViewController {
     let swiftTokenizer = SwiftTokenizer()
     let kotlinTokenizer = KotlinTokenizer(
         sourceTransformPlugins: [
-//            GeneratedHeaderCommentPlugin()
+            GeneratedHeaderCommentPlugin()
         ],
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
@@ -36,6 +36,8 @@ class ViewController: NSViewController {
         self.kotlinTextView.isAutomaticQuoteSubstitutionEnabled = false
         self.kotlinTextView.isAutomaticDashSubstitutionEnabled = false
         self.kotlinTextView.isAutomaticTextReplacementEnabled = false
+        
+        self.translateSwift()
     }
     
     @IBAction func openSwiftFile(_ sender: AnyObject) {
