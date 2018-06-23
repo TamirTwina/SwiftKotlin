@@ -10,11 +10,16 @@ import Foundation
 import SwiftKotlinFramework
 
 let kotlinTokenizer = KotlinTokenizer(
+    sourceTransformPlugins: [
+        GeneratedHeaderCommentPlugin()
+    ],
     tokenTransformPlugins: [
         XCTTestToJUnitTokenTransformPlugin(),
-        FoundationMethodsTransformPlugin()
+        FoundationMethodsTransformPlugin(),
+        KotlinOnlyCodeFromComment()
     ]
 )
+
 let version = "0.1.4"
 let arguments = [
     "output",
