@@ -38,6 +38,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		36065ACD20DEF63D00957C60 /* String+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36065ACC20DEF63D00957C60 /* String+File.swift */; };
 		3621D2B320CBBC8D00817958 /* CommentDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3621D2B220CBBC8D00817958 /* CommentDeclaration.swift */; };
 		3621D2B520CBC26900817958 /* GeneratedHeaderCommentPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3621D2B420CBC26900817958 /* GeneratedHeaderCommentPlugin.swift */; };
 		3621D2B820CBE01C00817958 /* KotlinOnlyCodeFromComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3621D2B720CBE01C00817958 /* KotlinOnlyCodeFromComment.swift */; };
@@ -1016,6 +1017,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		36065AC320DE774000957C60 /* SwiftKotlinCommandLineAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKotlinCommandLineAppTests.swift; sourceTree = "<group>"; };
+		36065AC520DE774000957C60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		36065ACC20DEF63D00957C60 /* String+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+File.swift"; sourceTree = "<group>"; };
 		3621D2B220CBBC8D00817958 /* CommentDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDeclaration.swift; sourceTree = "<group>"; };
 		3621D2B420CBC26900817958 /* GeneratedHeaderCommentPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedHeaderCommentPlugin.swift; sourceTree = "<group>"; };
 		3621D2B720CBE01C00817958 /* KotlinOnlyCodeFromComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinOnlyCodeFromComment.swift; sourceTree = "<group>"; };
@@ -1247,7 +1251,7 @@
 		"swift-ast::Source::Product" /* Source.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Source.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-ast::Tooling::Product" /* Tooling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Tooling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"swift-transform::Transform::Product" /* Transform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Transform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"swift-transform::swift-transform::Product" /* swift-transform */ = {isa = PBXFileReference; lastKnownFileType = text; path = "swift-transform"; sourceTree = BUILT_PRODUCTS_DIR; };
+		"swift-transform::swift-transform::Product" /* swift-transform */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = "swift-transform"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1433,6 +1437,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36065AC220DE774000957C60 /* SwiftKotlinCommandLineAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				36065AC320DE774000957C60 /* SwiftKotlinCommandLineAppTests.swift */,
+				36065AC520DE774000957C60 /* Info.plist */,
+			);
+			path = SwiftKotlinCommandLineAppTests;
+			sourceTree = "<group>";
+		};
 		78266ADB1F5AD05000F08378 /* SwiftKotlinApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -1464,6 +1477,7 @@
 			children = (
 				789D79011F927A66009ED628 /* AST+Operations.swift */,
 				789D79021F927A66009ED628 /* Token+Operations.swift */,
+				36065ACC20DEF63D00957C60 /* String+File.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -1836,6 +1850,7 @@
 				OBJ_21 /* Assets */,
 				OBJ_22 /* build */,
 				OBJ_23 /* Dependencies */,
+				36065AC220DE774000957C60 /* SwiftKotlinCommandLineAppTests */,
 				OBJ_246 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -2390,7 +2405,7 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 9999;
 				TargetAttributes = {
 					78266ACA1F5AD03F00F08378 = {
@@ -2453,6 +2468,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36065ACD20DEF63D00957C60 /* String+File.swift in Sources */,
 				78266AE41F5AD06200F08378 /* AppDelegate.swift in Sources */,
 				78266AE31F5AD06000F08378 /* ViewController.swift in Sources */,
 			);
@@ -3293,7 +3309,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Sources/SwiftKotlinApp/SwiftKotlinApp.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3352,7 +3367,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Sources/SwiftKotlinApp/SwiftKotlinApp.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -3451,13 +3465,14 @@
 		OBJ_286 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SwiftKotlin.xcodeproj/SwiftKotlinCommandLine_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
@@ -3470,13 +3485,14 @@
 		OBJ_287 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SwiftKotlin.xcodeproj/SwiftKotlinCommandLine_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
@@ -3593,6 +3609,7 @@
 		OBJ_382 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -3612,6 +3629,7 @@
 		OBJ_383 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",

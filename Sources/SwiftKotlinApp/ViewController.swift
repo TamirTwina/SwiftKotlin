@@ -11,6 +11,7 @@ import SwiftKotlinFramework
 import Transform
 
 class ViewController: NSViewController {
+    var lastUsedURL: URL?
 
     let swiftTokenizer = SwiftTokenizer()
     let kotlinTokenizer = KotlinTokenizer(
@@ -51,6 +52,7 @@ class ViewController: NSViewController {
         oPanel.beginSheetModal(for: self.view.window!, completionHandler: { (button: NSApplication.ModalResponse) -> Void in
             if button == NSApplication.ModalResponse.OK {
                 let filePath = oPanel.urls.first!.path
+                self.lastUsedURL = oPanel.urls.first
                 let fileHandle = FileHandle(forReadingAtPath: filePath)
                 if let data = fileHandle?.readDataToEndOfFile() {
                     self.swiftTextView.textStorage?.beginEditing()
@@ -62,6 +64,33 @@ class ViewController: NSViewController {
             }
         })
     }
+    
+    
+    @IBAction func saveSwift(_ sender: Any) {
+        NSLog("Save file")
+        let savePanel = NSSavePanel()
+        savePanel.delegate = self
+        savePanel.title = "Save swift file"
+        savePanel.nameFieldStringValue = "New File"
+        savePanel.showsTagField = false
+        if let currentUrl = self.lastUsedURL {
+            savePanel.directoryURL = currentUrl.deletingLastPathComponent()
+            savePanel.nameFieldStringValue = currentUrl.lastPathComponent
+        }
+        savePanel.beginSheetModal(for: self.view.window!, completionHandler: {(result) in
+
+            if result == NSApplication.ModalResponse.OK,
+            let saveUrl = savePanel.url {
+                self.lastUsedURL = nil
+                print("Saving file to: \(saveUrl)")
+                let swiftCode = self.swiftTextView.string
+                swiftCode.writeToFile(toUrl: saveUrl)
+            }
+        })
+
+
+    }
+    
     
     @IBAction func formatSwift(_ sender: AnyObject) {
         let swift = swiftTextView.string
