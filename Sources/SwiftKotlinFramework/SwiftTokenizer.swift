@@ -58,10 +58,10 @@ public class SwiftTokenizer: Tokenizer {
 }
 
 extension SwiftTokenizer {
-
+    
     private func applySourceTransformPlugins(sourceFile: SourceFile) throws -> SourceFile {
         let transformedSourceContent = try sourceTransformPlugins.reduce(sourceFile.content) { source, plugin in
-            return try plugin.transform(source: source,sourceIdentifier: sourceFile.identifier)
+            return try plugin.transform(source: source,sourceIdentifier: sourceFile.sourceIdentifier)
         }
         switch sourceFile.origin {
         case .file(let path):
