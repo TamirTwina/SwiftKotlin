@@ -502,6 +502,7 @@ public class KotlinTokenizer: SwiftTokenizer {
             let membersTokens = declaration.members
                 .compactMap{ $0.rawValueStyleEnumCase }
                 .flatMap { $0.cases }
+                .filter { $0.assignment != nil}
                 .map { (enumCase) -> [Token] in
                     return [
                         declaration.newToken(.identifier, enumCase.name.uppercased()),
