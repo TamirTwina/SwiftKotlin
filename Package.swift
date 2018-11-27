@@ -16,7 +16,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/yanagiba/swift-transform",
-      .exact("0.1.4")
+      .revision("45464c7747d97f320ca153b713affede11ce3bf4")
     )    
   ],
   targets: [
