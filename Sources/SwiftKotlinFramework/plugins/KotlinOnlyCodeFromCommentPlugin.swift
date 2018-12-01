@@ -10,8 +10,8 @@ import Transform
 import AST
 
 public class KotlinOnlyCodeFromComment : TokenTransformPlugin {
-    static let kotlinCodeRegex = "^!\\s*(\\w+):?\\s*(.*)"
-    private let kotlinKeyword: String = "kotlin"
+    static let kotlinCodeRegex = "^\\s*kotlin:?\\s*(.*)"
+    
     
     public var name: String {
         return "Kotlin only copy 'as-is'"
@@ -50,10 +50,8 @@ public class KotlinOnlyCodeFromComment : TokenTransformPlugin {
             if consumeComment,
             let node = token.node,
             let origin = token.origin,
-            let stringGroups = extractedLineValue(comment.content,keyword: kotlinKeyword),
-            let commentKeyword = stringGroups.first,
-            commentKeyword == kotlinKeyword,
-            let kotlineCodeAsIs = stringGroups.last {
+            let stringGroups = extractedLineValue(comment.content),
+            let kotlineCodeAsIs = stringGroups.first {
                 sortedComments.removeFirst()
                 newTokens.append(origin.newToken(.string, kotlineCodeAsIs,node))
                 newTokens.append(origin.newToken(.linebreak, "\n",node))
@@ -75,9 +73,9 @@ public class KotlinOnlyCodeFromComment : TokenTransformPlugin {
     }
     
     
-    private func extractedLineValue(_ comment: String,keyword:String) -> [String]? {
+    private func extractedLineValue(_ comment: String) -> [String]? {
         let groups = comment.capturedGroups(withRegex: KotlinOnlyCodeFromComment.kotlinCodeRegex)
-        return groups.count == 2 ? groups : nil
+        return groups.count == 1 ? groups : nil
     }
     
 }

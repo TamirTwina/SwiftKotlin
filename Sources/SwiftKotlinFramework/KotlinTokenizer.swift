@@ -402,76 +402,145 @@ public class KotlinTokenizer: SwiftTokenizer {
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let space = declaration.newToken(.space, " ")
 
-        guard unionCases.count == declaration.members.count &&
-            declaration.genericParameterClause == nil &&
+        guard declaration.genericParameterClause == nil &&
             declaration.genericWhereClause == nil else {
                 return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
                     super.tokenize(declaration)
         }
+        if unionCases.count == declaration.members.count {
 
-        // Simple enums (no tuples)
-        if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
+            // Simple enums (no tuples)
+            if !simpleCases.contains(where: { $0.tuple != nil }) && declaration.typeInheritanceClause == nil {
+                let attrsTokens = tokenize(declaration.attributes, node: declaration)
+                let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+                let headTokens = [
+                    attrsTokens,
+                    modifierTokens,
+                    [declaration.newToken(.keyword, "enum")],
+                    [declaration.newToken(.keyword, "class")],
+                    [declaration.newToken(.identifier, declaration.name)],
+                    ].joined(token: space)
+
+                let membersTokens = simpleCases.map { c in
+                    return [c.newToken(.identifier, c.name, declaration)]
+                    }.joined(tokens: [
+                        declaration.newToken(.delimiter, ","),
+                        lineBreak
+                        ])
+
+                return headTokens +
+                    [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
+                    indent(membersTokens) +
+                    [lineBreak, declaration.newToken(.endOfScope, "}")]
+            }
+            // Tuples or inhertance required sealed classes
+            else {
+                let attrsTokens = tokenize(declaration.attributes, node: declaration)
+                let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+                let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+                let headTokens = [
+                    attrsTokens,
+                    modifierTokens,
+                    [declaration.newToken(.keyword, "sealed")],
+                    [declaration.newToken(.keyword, "class")],
+                    [declaration.newToken(.identifier, declaration.name)],
+                    inheritanceTokens
+                ].joined(token: space)
+
+                let membersTokens = simpleCases.map { c in
+                    var tokenSections: [[Token]]
+                    if let tuple = c.tuple {
+                        tokenSections = [
+                            [c.newToken(.keyword, "data", declaration)],
+                            [c.newToken(.keyword, "class", declaration)],
+                            [c.newToken(.identifier, c.name, declaration)] + tokenize(tuple, node: declaration)
+                        ]
+                    } else {
+                        tokenSections = [
+                            [c.newToken(.keyword, "object", declaration)],
+                            [c.newToken(.identifier, c.name, declaration)]
+                        ]
+                    }
+                    tokenSections += [
+                        [c.newToken(.symbol, ":", declaration)],
+                        [c.newToken(.identifier, declaration.name, declaration), c.newToken(.startOfScope, "(", declaration), c.newToken(.endOfScope, ")", declaration)]
+                    ]
+                    return tokenSections.joined(token: space)
+                }.joined(token: lineBreak)
+
+                return headTokens +
+                    [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
+                    indent(membersTokens) +
+                    [lineBreak, declaration.newToken(.endOfScope, "}")]
+            }
+        } else if case let enumInheritanceTypeList = declaration.typeInheritanceClause?.typeInheritanceList.first,
+                    let enumInheritanceType = enumInheritanceTypeList?.names.first,
+                        enumInheritanceType.name.textDescription == "String"{
             let attrsTokens = tokenize(declaration.attributes, node: declaration)
             let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+            let paramName = declaration.name.textDescription.lowercaseFirstLetter()
             let headTokens = [
                 attrsTokens,
                 modifierTokens,
+                [space],
                 [declaration.newToken(.keyword, "enum")],
+                [space],
                 [declaration.newToken(.keyword, "class")],
+                [space],
                 [declaration.newToken(.identifier, declaration.name)],
-                ].joined(token: space)
-
-            let membersTokens = simpleCases.map { c in
-                return [c.newToken(.identifier, c.name, declaration)]
+                [declaration.newToken(.startOfScope, "(")],
+                [declaration.newToken(.keyword, "private")],
+                [space],
+                [declaration.newToken(.keyword, "val")],
+                [space],
+                [declaration.newToken(.identifier, paramName)],
+                [declaration.newToken(.delimiter, ":")],
+                [space],
+                [declaration.newToken(.keyword, "String")],
+                [declaration.newToken(.endOfScope, ")")]
+                ].joined()
+            
+            
+            let membersTokens = declaration.members
+                .compactMap{ $0.rawValueStyleEnumCase }
+                .flatMap { $0.cases }
+                .filter { $0.assignment != nil}
+                .map { (enumCase) -> [Token] in
+                    return [
+                        declaration.newToken(.identifier, enumCase.name.textDescription.uppercased()),
+                        declaration.newToken(.startOfScope, "("),
+                        declaration.newToken(.string, "\"\(enumCase.assignment!.value)\""),
+                        declaration.newToken(.endOfScope, ")"),
+                    ]
                 }.joined(tokens: [
                     declaration.newToken(.delimiter, ","),
                     lineBreak
-                    ])
-
+                ]) + [declaration.newToken(.delimiter, ";")]
+            
+            let getterMethodTokens = [
+                declaration.newToken(.keyword, "fun"),
+                space,
+                declaration.newToken(.identifier, "getValue"),
+                declaration.newToken(.startOfScope, "("),
+                declaration.newToken(.endOfScope, ")"),
+                declaration.newToken(.delimiter, ":"),
+                space,
+                declaration.newToken(.keyword, "String"),
+                space,
+                declaration.newToken(.symbol, "="),
+                space,
+                declaration.newToken(.identifier, paramName)
+            ]
+            
             return headTokens +
                 [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
                 indent(membersTokens) +
+                lineBreak + lineBreak +
+                indent(getterMethodTokens) +
                 [lineBreak, declaration.newToken(.endOfScope, "}")]
-        }
-        // Tuples or inhertance required sealed classes
-        else {
-            let attrsTokens = tokenize(declaration.attributes, node: declaration)
-            let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
-            let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
-            let headTokens = [
-                attrsTokens,
-                modifierTokens,
-                [declaration.newToken(.keyword, "sealed")],
-                [declaration.newToken(.keyword, "class")],
-                [declaration.newToken(.identifier, declaration.name)],
-                inheritanceTokens
-            ].joined(token: space)
-
-            let membersTokens = simpleCases.map { c in
-                var tokenSections: [[Token]]
-                if let tuple = c.tuple {
-                    tokenSections = [
-                        [c.newToken(.keyword, "data", declaration)],
-                        [c.newToken(.keyword, "class", declaration)],
-                        [c.newToken(.identifier, c.name, declaration)] + tokenize(tuple, node: declaration)
-                    ]
-                } else {
-                    tokenSections = [
-                        [c.newToken(.keyword, "object", declaration)],
-                        [c.newToken(.identifier, c.name, declaration)]
-                    ]
-                }
-                tokenSections += [
-                    [c.newToken(.symbol, ":", declaration)],
-                    [c.newToken(.identifier, declaration.name, declaration), c.newToken(.startOfScope, "(", declaration), c.newToken(.endOfScope, ")", declaration)]
-                ]
-                return tokenSections.joined(token: space)
-            }.joined(token: lineBreak)
-
-            return headTokens +
-                [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
-                indent(membersTokens) +
-                [lineBreak, declaration.newToken(.endOfScope, "}")]
+        } else {
+            return self.unsupportedTokens(message: "Complex enums not supported yet", element: declaration, node: declaration).suffix(with: lineBreak) +
+                super.tokenize(declaration)
         }
 
     }
@@ -1076,5 +1145,16 @@ public class KotlinTokenizer: SwiftTokenizer {
 public typealias InvertedConditionList = [InvertedCondition]
 public struct InvertedCondition: ASTTokenizable {
     public let condition: Condition
+}
+
+
+extension String {
+    func lowercaseFirstLetter() -> String {
+        return prefix(1).lowercased() + dropFirst()
+    }
+    
+    mutating func lowercaseFirstLetter() {
+        self = self.lowercaseFirstLetter()
+    }
 }
 
