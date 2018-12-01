@@ -13,15 +13,22 @@ import Transform
 class ViewController: NSViewController {
 
     let swiftTokenizer = SwiftTokenizer(
+        sourceTransformPlugins: [
+        GeneratedHeaderCommentPlugin()
+        ],
         tokenTransformPlugins: [
             CommentsAdditionTransformPlugin()
         ]
     )
     let kotlinTokenizer = KotlinTokenizer(
+        sourceTransformPlugins: [
+            GeneratedHeaderCommentPlugin()
+        ],
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
             FoundationMethodsTransformPlugin(),
-            CommentsAdditionTransformPlugin()
+            CommentsAdditionTransformPlugin(),
+            KotlinOnlyCodeFromComment()
         ]
     )
     
@@ -37,6 +44,16 @@ class ViewController: NSViewController {
         self.kotlinTextView.isAutomaticQuoteSubstitutionEnabled = false
         self.kotlinTextView.isAutomaticDashSubstitutionEnabled = false
         self.kotlinTextView.isAutomaticTextReplacementEnabled = false
+        
+        self.swiftTextView.string = """
+//! kotlin package.bla.nl;
+
+enum bla: String {
+case moshe = "a"
+case suka = "b"
+}
+"""
+        translateSwift()
     }
     
     @IBAction func openSwiftFile(_ sender: AnyObject) {

@@ -61,7 +61,7 @@ extension SwiftTokenizer {
 
     private func applySourceTransformPlugins(sourceFile: SourceFile) throws -> SourceFile {
         let transformedSourceContent = try sourceTransformPlugins.reduce(sourceFile.content) { source, plugin in
-            return try plugin.transform(source: source)
+            return try plugin.transform(source: source,sourceIdentifier: sourceFile.identifier)
         }
         switch sourceFile.origin {
         case .file(let path):

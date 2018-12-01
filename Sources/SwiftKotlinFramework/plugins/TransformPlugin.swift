@@ -16,6 +16,7 @@ public protocol TransformPlugin {
 
 public protocol SourceTransformPlugin: TransformPlugin {
     func transform(source: String) throws -> String
+    func transform(source: String,sourceIdentifier: String?) throws -> String
 }
 
 public protocol TokenTransformPlugin: TransformPlugin {
