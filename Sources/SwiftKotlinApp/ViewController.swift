@@ -10,10 +10,14 @@ import Cocoa
 import SwiftKotlinFramework
 import Transform
 
-class ViewController: NSViewController {
+class ViewController: NSViewController,NSOpenSavePanelDelegate {
     var lastUsedURL: URL?
 
-    let swiftTokenizer = SwiftTokenizer()
+    let swiftTokenizer = SwiftTokenizer(
+        tokenTransformPlugins: [
+            CommentsAdditionTransformPlugin()
+        ]
+    )
     let kotlinTokenizer = KotlinTokenizer(
         sourceTransformPlugins: [
             GeneratedHeaderCommentPlugin()
@@ -21,6 +25,7 @@ class ViewController: NSViewController {
         tokenTransformPlugins: [
             XCTTestToJUnitTokenTransformPlugin(),
             FoundationMethodsTransformPlugin(),
+            CommentsAdditionTransformPlugin(),
             KotlinOnlyCodeFromComment()
         ]
     )
@@ -84,7 +89,13 @@ class ViewController: NSViewController {
                 self.lastUsedURL = nil
                 print("Saving file to: \(saveUrl)")
                 let swiftCode = self.swiftTextView.string
-                swiftCode.writeToFile(toUrl: saveUrl)
+                if let _ = try? swiftCode.write(toFile: saveUrl.absoluteString, atomically: true, encoding: .utf8) {
+                    // File saved correctly
+                } else {
+                    self.feedbackTextField.textColor = NSColor.red
+                    self.feedbackTextField.stringValue = "❌ Failed to save file"
+                }
+                
             }
         })
 
@@ -153,18 +164,25 @@ extension ViewController: NSTextViewDelegate {
     }
 }
 
-
 extension Token {
-    var attributes: [NSAttributedStringKey : Any] {
+    var attributes: [NSAttributedString.Key : Any] {
         switch self.kind {
         case .keyword:
-            return [NSAttributedStringKey.foregroundColor: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
-        case .number, .string:
-            return [NSAttributedStringKey.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
+            return [NSAttributedString.Key.foregroundColor: NSColor(red: 170.0/255.0, green: 13.0/255.0, blue: 145.0/255.0, alpha: 1)]
+        case .number:
+            return [NSAttributedString.Key.foregroundColor: NSColor(red: 28.0/255.0, green: 0.0/255.0, blue: 207.0/255.0, alpha: 1)]
+        case .string:
+            return [NSAttributedString.Key.foregroundColor: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]
         case .comment:
-            return [NSAttributedStringKey.foregroundColor: NSColor(red: 196.0/255.0, green: 26.0/255.0, blue: 22.0/255.0, alpha: 1)]
+            return [NSAttributedString.Key.foregroundColor: NSColor(red: 0, green: 116.0/255.0, blue: 0, alpha: 1)]
+            
         default:
-            return [:]
+            if #available(OSX 10.14, *)
+            {
+                return [NSAttributedString.Key.foregroundColor: NSApp.mainWindow?.effectiveAppearance.name == .darkAqua ? NSColor.white : NSColor.black]
+            } else {
+                return [:]
+            }
         }
     }
     

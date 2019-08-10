@@ -77,3 +77,6 @@ SwiftKotlin.xcodeproj/project.xcworkspace/xcshareddata/
 *.xcscmblueprint
 test.swiftdoc
 test.swiftmodule
+
+## Generated project file
+SwiftKotlinFramework.xcodeproj

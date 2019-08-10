@@ -34,8 +34,8 @@ extension VariableDeclaration {
     
     var typeAnnotation: TypeAnnotation? {
         return initializerList?
-            .flatMap { $0.pattern as? IdentifierPattern }
-            .flatMap { $0.typeAnnotation }
+            .compactMap { $0.pattern as? IdentifierPattern }
+            .compactMap { $0.typeAnnotation }
             .first
     }
     
@@ -53,6 +53,9 @@ extension VariableDeclaration {
 extension FunctionDeclaration {
     var isStatic: Bool {
         return modifiers.isStatic
+    }
+    var isOverride: Bool {
+        return modifiers.isOverride
     }
 }
 
@@ -118,6 +121,10 @@ extension Collection where Iterator.Element == DeclarationModifier {
     var isLazy: Bool {
         return self.contains(where: { $0.isLazy })
     }
+
+    var isOverride: Bool {
+        return self.contains(where: { $0.isOverride })
+    }
 }
 
 extension DeclarationModifier {
@@ -131,6 +138,13 @@ extension DeclarationModifier {
     var isLazy: Bool {
         switch self {
         case .lazy: return true
+        default: return false
+        }
+    }
+
+    var isOverride: Bool {
+        switch self {
+        case .override: return true
         default: return false
         }
     }
@@ -164,11 +178,11 @@ extension ExplicitMemberExpression {
         case let .tuple(_, index):
             return "var\(index)"
         case let .namedType(_, identifier):
-            return identifier
+            return identifier.textDescription
         case let .generic(_, identifier, _):
-            return identifier
+            return identifier.textDescription
         case let .argument(_, identifier, _):
-            return identifier
+            return identifier.textDescription
         }
     }
 }
@@ -189,15 +203,6 @@ extension EnumDeclaration.Member {
     var unionStyleEnumCase: EnumDeclaration.UnionStyleEnumCase? {
         switch self {
         case .union(let enumCase):
-            return enumCase
-        default:
-            return nil
-        }
-    }
-    
-    var rawValueStyleEnumCase: EnumDeclaration.RawValueStyleEnumCase? {
-        switch self {
-        case .rawValue(let enumCase):
             return enumCase
         default:
             return nil
