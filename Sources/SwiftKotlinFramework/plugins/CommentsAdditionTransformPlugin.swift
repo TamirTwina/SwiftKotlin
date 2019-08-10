@@ -23,7 +23,12 @@ public class CommentsAdditionTransformPlugin: TokenTransformPlugin {
     
     public func transform(tokens: [Token], topDeclaration: TopLevelDeclaration) throws -> [Token] {
         var newTokens = [Token]()
-        var sortedComments = topDeclaration.comments.sorted { $0.location.line < $1.location.line }
+        var sortedComments = topDeclaration
+            .comments
+            .filter({ $0.content.isKotlinCodeComment() == false })
+            .sorted {
+                $0.location.line < $1.location.line
+            }
         
         var position = 0
         while position < tokens.count && !sortedComments.isEmpty {

@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36251E6621B35A040089204B /* SwiftKotlinFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C721736BE3003BAC26 /* SwiftKotlinFramework.framework */; };
+		36251E6721B35A040089204B /* SwiftKotlinFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C721736BE3003BAC26 /* SwiftKotlinFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E6D21B35A5D0089204B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* main.swift */; };
+		36251E7C21B35F790089204B /* AST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4B921736BE3003BAC26 /* AST.framework */; };
+		36251E7D21B35F790089204B /* AST.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4B921736BE3003BAC26 /* AST.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E7E21B35F790089204B /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BB21736BE3003BAC26 /* Bocho.framework */; };
+		36251E7F21B35F790089204B /* Bocho.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BB21736BE3003BAC26 /* Bocho.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8021B35F790089204B /* Diagnostic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BD21736BE3003BAC26 /* Diagnostic.framework */; };
+		36251E8121B35F790089204B /* Diagnostic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BD21736BE3003BAC26 /* Diagnostic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8221B35F790089204B /* Lexer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BF21736BE3003BAC26 /* Lexer.framework */; };
+		36251E8321B35F790089204B /* Lexer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BF21736BE3003BAC26 /* Lexer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8421B35F790089204B /* Parser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C121736BE3003BAC26 /* Parser.framework */; };
+		36251E8521B35F790089204B /* Parser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C121736BE3003BAC26 /* Parser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8621B35F790089204B /* Sema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C321736BE3003BAC26 /* Sema.framework */; };
+		36251E8721B35F790089204B /* Sema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C321736BE3003BAC26 /* Sema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8821B35F790089204B /* Source.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C521736BE3003BAC26 /* Source.framework */; };
+		36251E8921B35F790089204B /* Source.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C521736BE3003BAC26 /* Source.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8A21B35F790089204B /* Tooling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C921736BE3003BAC26 /* Tooling.framework */; };
+		36251E8B21B35F790089204B /* Tooling.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4C921736BE3003BAC26 /* Tooling.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36251E8C21B35F790089204B /* Transform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4CB21736BE3003BAC26 /* Transform.framework */; };
+		36251E8D21B35F790089204B /* Transform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4CB21736BE3003BAC26 /* Transform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		789EC4BA21736BE3003BAC26 /* AST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4B921736BE3003BAC26 /* AST.framework */; };
 		789EC4BC21736BE3003BAC26 /* Bocho.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BB21736BE3003BAC26 /* Bocho.framework */; };
 		789EC4BE21736BE3003BAC26 /* Diagnostic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789EC4BD21736BE3003BAC26 /* Diagnostic.framework */; };
@@ -31,6 +52,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		36251E6C21B35A040089204B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				36251E7F21B35F790089204B /* Bocho.framework in Embed Frameworks */,
+				36251E8121B35F790089204B /* Diagnostic.framework in Embed Frameworks */,
+				36251E8B21B35F790089204B /* Tooling.framework in Embed Frameworks */,
+				36251E6721B35A040089204B /* SwiftKotlinFramework.framework in Embed Frameworks */,
+				36251E7D21B35F790089204B /* AST.framework in Embed Frameworks */,
+				36251E8D21B35F790089204B /* Transform.framework in Embed Frameworks */,
+				36251E8721B35F790089204B /* Sema.framework in Embed Frameworks */,
+				36251E8921B35F790089204B /* Source.framework in Embed Frameworks */,
+				36251E8321B35F790089204B /* Lexer.framework in Embed Frameworks */,
+				36251E8521B35F790089204B /* Parser.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		789EC50B21736D16003BAC26 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,6 +95,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		36251E4A21B359BB0089204B /* SwiftKotlinCmdApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKotlinCmdApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36251E4C21B359BB0089204B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		36251E4E21B359BC0089204B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		36251E5121B359BC0089204B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		36251E5321B359BC0089204B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		36251E5421B359BC0089204B /* SwiftKotlinCmdApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftKotlinCmdApp.entitlements; sourceTree = "<group>"; };
 		789EC4B921736BE3003BAC26 /* AST.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		789EC4BB21736BE3003BAC26 /* Bocho.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bocho.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		789EC4BD21736BE3003BAC26 /* Diagnostic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Diagnostic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +117,23 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		36251E4721B359BB0089204B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36251E7E21B35F790089204B /* Bocho.framework in Frameworks */,
+				36251E8021B35F790089204B /* Diagnostic.framework in Frameworks */,
+				36251E8A21B35F790089204B /* Tooling.framework in Frameworks */,
+				36251E6621B35A040089204B /* SwiftKotlinFramework.framework in Frameworks */,
+				36251E7C21B35F790089204B /* AST.framework in Frameworks */,
+				36251E8C21B35F790089204B /* Transform.framework in Frameworks */,
+				36251E8621B35F790089204B /* Sema.framework in Frameworks */,
+				36251E8821B35F790089204B /* Source.framework in Frameworks */,
+				36251E8221B35F790089204B /* Lexer.framework in Frameworks */,
+				36251E8421B35F790089204B /* Parser.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_290 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
@@ -90,6 +154,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36251E4B21B359BB0089204B /* SwiftKotlinCmdApp */ = {
+			isa = PBXGroup;
+			children = (
+				36251E4C21B359BB0089204B /* AppDelegate.swift */,
+				36251E4E21B359BC0089204B /* Assets.xcassets */,
+				36251E5021B359BC0089204B /* MainMenu.xib */,
+				36251E5321B359BC0089204B /* Info.plist */,
+				36251E5421B359BC0089204B /* SwiftKotlinCmdApp.entitlements */,
+			);
+			path = SwiftKotlinCmdApp;
+			sourceTree = "<group>";
+		};
 		789EC4B821736BE3003BAC26 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				"SwiftKotlin::SwiftKotlinCommandLine::Product" /* swiftkotlin */,
+				36251E4A21B359BB0089204B /* SwiftKotlinCmdApp.app */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -129,6 +206,7 @@
 			children = (
 				OBJ_7 /* Sources */,
 				OBJ_21 /* Assets */,
+				36251E4B21B359BB0089204B /* SwiftKotlinCmdApp */,
 				OBJ_246 /* Products */,
 				789EC4B821736BE3003BAC26 /* Frameworks */,
 			);
@@ -145,6 +223,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		36251E4921B359BB0089204B /* SwiftKotlinCmdApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36251E5721B359BC0089204B /* Build configuration list for PBXNativeTarget "SwiftKotlinCmdApp" */;
+			buildPhases = (
+				36251E4621B359BB0089204B /* Sources */,
+				36251E4721B359BB0089204B /* Frameworks */,
+				36251E6C21B35A040089204B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftKotlinCmdApp;
+			productName = SwiftKotlinCmdApp;
+			productReference = 36251E4A21B359BB0089204B /* SwiftKotlinCmdApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		"SwiftKotlin::SwiftKotlinCommandLine" /* SwiftKotlinCommandLine */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_285 /* Build configuration list for PBXNativeTarget "SwiftKotlinCommandLine" */;
@@ -168,8 +263,20 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					36251E4921B359BB0089204B = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = J8ZST4AX3A;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "SwiftKotlinCommandLine" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -185,11 +292,20 @@
 			projectRoot = "";
 			targets = (
 				"SwiftKotlin::SwiftKotlinCommandLine" /* SwiftKotlinCommandLine */,
+				36251E4921B359BB0089204B /* SwiftKotlinCmdApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		36251E4621B359BB0089204B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36251E6D21B35A5D0089204B /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_288 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -200,7 +316,143 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		36251E5021B359BC0089204B /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				36251E5121B359BC0089204B /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		36251E5521B359BC0089204B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = J8ZST4AX3A;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SwiftKotlinCmdApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.houzz.tools.SwiftKotlinCmdApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		36251E5621B359BC0089204B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = J8ZST4AX3A;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SwiftKotlinCmdApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.houzz.tools.SwiftKotlinCmdApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		OBJ_286 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -284,6 +536,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		36251E5721B359BC0089204B /* Build configuration list for PBXNativeTarget "SwiftKotlinCmdApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36251E5521B359BC0089204B /* Debug */,
+				36251E5621B359BC0089204B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "SwiftKotlinCommandLine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
