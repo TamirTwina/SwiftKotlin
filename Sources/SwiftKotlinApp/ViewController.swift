@@ -13,11 +13,7 @@ import Transform
 class ViewController: NSViewController,NSOpenSavePanelDelegate {
     var lastUsedURL: URL?
 
-    let swiftTokenizer = SwiftTokenizer(
-        tokenTransformPlugins: [
-            CommentsAdditionTransformPlugin()
-        ]
-    )
+    let swiftTokenizer = SwiftTokenizer()
     let kotlinTokenizer = KotlinTokenizer(
         sourceTransformPlugins: [
             GeneratedHeaderCommentPlugin()
