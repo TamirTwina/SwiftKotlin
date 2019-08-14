@@ -417,7 +417,12 @@ public class KotlinTokenizer: SwiftTokenizer {
         // Simple enums (no tuple values)
         if !simpleCases.contains(where: { $0.tuple != nil }) {
             if declaration.typeInheritanceClause != nil {
-                return tokenizeSimpleValueEnum(declaration:declaration, simpleCases: simpleCases)
+                //simpleCases == members.count --> key only Enum
+                if simpleCases.count == declaration.members.count {
+                    return tokenizeSimpleValueOnlyEnum(declaration:declaration, simpleCases: simpleCases)
+                } else {
+                    return tokenizeSimpleValueEnum(declaration:declaration, simpleCases: simpleCases)
+                }
             } else {
                 return tokenizeNoValueEnum(declaration: declaration, simpleCases: simpleCases)
             }

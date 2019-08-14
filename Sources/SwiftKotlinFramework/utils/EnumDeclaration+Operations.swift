@@ -51,6 +51,41 @@ extension KotlinTokenizer {
             indent(otherMemberTokens).prefix(with: lineBreak) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
     }
+    
+    func tokenizeSimpleValueOnlyEnum(declaration: EnumDeclaration, simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        let lineBreak = declaration.newToken(.linebreak, "\n")
+        let attrsTokens = tokenize(declaration.attributes, node: declaration)
+        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+        let inheritanceType = declaration.typeInheritanceClause!.typeInheritanceList.first!
+        let otherInheritances = declaration.typeInheritanceClause!.typeInheritanceList.filter { $0 !== inheritanceType }
+        let headTokens = [
+            attrsTokens,
+            modifierTokens,
+            [declaration.newToken(.keyword, "enum")],
+            [declaration.newToken(.keyword, "class")],
+            [declaration.newToken(.identifier, declaration.name)],
+            otherInheritances.isEmpty ? [] : [declaration.newToken(.delimiter, ":")],
+            otherInheritances.map { tokenize($0, node: declaration) }.joined(token: declaration.newToken(.delimiter, ", "))
+            ].joined(token: space)
+        
+        let typeToken = inheritanceTokens.first(where: { $0.kind == .identifier })!
+        let comps: [Token] = getKeyOnlyAssignments(simpleCases: simpleCases, declaration: declaration, typeToken: typeToken)
+        
+        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
+        let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
+            .map { tokenize($0, node: declaration) }
+            .joined(token: lineBreak)
+            .prefix(with: lineBreak)
+        let bodyTokens = [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
+            indent(comps) + [declaration.newToken(.delimiter, ";"), lineBreak] +
+            initFromRawTokens +
+            indent(otherMemberTokens).prefix(with: lineBreak) +
+            [lineBreak, declaration.newToken(.endOfScope, "}")]
+        return headTokens + bodyTokens
+    }
+
 
     func tokenizeSimpleValueEnum(declaration: EnumDeclaration, simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
         let space = declaration.newToken(.space, " ")
@@ -203,6 +238,54 @@ private extension KotlinTokenizer {
                     d.newToken(.endOfScope, "}")
         ]
     }
+    
+    func makeGetterForEnumFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
+        let space = d.newToken(.space, " ")
+        let lineBreak = d.newToken(.linebreak, "\n")
+        return [
+            d.newToken(.keyword, "companion"),
+            space,
+            d.newToken(.keyword, "object"),
+            space,
+            d.newToken(.startOfScope, "{"),
+            lineBreak ] +
+            indent([
+                d.newToken(.keyword, "@JvmStatic"),
+                space,
+                d.newToken(.keyword, "fun"),
+                space,
+                d.newToken(.keyword, "get"),
+                d.newToken(.startOfScope, "("),
+                d.newToken(.identifier, "name"),
+                d.newToken(.delimiter, ":"),
+                space,
+                typeToken,
+                d.newToken(.endOfScope, ")"),
+                space,
+                d.newToken(.symbol, "="),
+                space,
+                d.newToken(.identifier, "values"),
+                d.newToken(.startOfScope, "("),
+                d.newToken(.endOfScope, ")"),
+                d.newToken(.delimiter, "."),
+                d.newToken(.identifier, "firstOrNull"),
+                space,
+                d.newToken(.startOfScope, "{"),
+                space,
+                d.newToken(.identifier, "it"),
+                d.newToken(.delimiter, "."),
+                d.newToken(.identifier, "name"),
+                space,
+                d.newToken(.symbol, "=="),
+                space,
+                d.newToken(.identifier, "name"),
+                space,
+                d.newToken(.endOfScope, "}")
+                ]) + [
+                    lineBreak,
+                    d.newToken(.endOfScope, "}")
+        ]
+    }
 
 
     // these two methods below allow getting simple, non type enums and single-type enums and outputing their values.
@@ -270,6 +353,45 @@ private extension KotlinTokenizer {
                 set,
                 declaration.newToken(.endOfScope, ")")
             ]
+            acomps.append(comp)
+        }
+        return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
+    }
+    
+    func getKeyOnlyAssignments(simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case], declaration: EnumDeclaration, typeToken: Token) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        var acomps = [[Token]]()
+        var intStart = 0
+        var boolStart = false
+        for s in simpleCases {
+            var set = space // hack to set it to space to start
+            var comp: [Token] = []
+            switch typeToken.value {
+            case "Bool":
+                set = declaration.newToken(.keyword, "\(boolStart)")
+                boolStart = !boolStart
+                comp = [
+                    declaration.newToken(.identifier, s.name),
+                    declaration.newToken(.startOfScope, "("),
+                    set,
+                    declaration.newToken(.endOfScope, ")")
+                ]
+            case "String":
+                set = declaration.newToken(.string, "\"\(s.name)\"")
+                comp = [
+                    declaration.newToken(.identifier, s.name)
+                ]
+            default:
+                set = declaration.newToken(.number, "\(intStart)")
+                comp = [
+                    declaration.newToken(.identifier, s.name),
+                    declaration.newToken(.startOfScope, "("),
+                    set,
+                    declaration.newToken(.endOfScope, ")")
+                ]
+                intStart += 1
+            }
+            
             acomps.append(comp)
         }
         return acomps.joined(tokens: [ declaration.newToken(.delimiter, ","), space ])
