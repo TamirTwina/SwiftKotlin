@@ -61,6 +61,7 @@ extension KotlinTokenizer {
         let inheritanceType = declaration.typeInheritanceClause!.typeInheritanceList.first!
         let otherInheritances = declaration.typeInheritanceClause!.typeInheritanceList.filter { $0 !== inheritanceType }
         let headTokens = [
+            [lineBreak],
             attrsTokens,
             modifierTokens,
             [declaration.newToken(.keyword, "enum")],
