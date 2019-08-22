@@ -56,7 +56,10 @@ extension KotlinTokenizer {
         let space = declaration.newToken(.space, " ")
         let lineBreak = declaration.newToken(.linebreak, "\n")
         let attrsTokens = tokenize(declaration.attributes, node: declaration)
-        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        var modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        if modifierTokens.first?.value == "public" {
+            modifierTokens = []
+        }
         let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
         let inheritanceType = declaration.typeInheritanceClause!.typeInheritanceList.first!
         let otherInheritances = declaration.typeInheritanceClause!.typeInheritanceList.filter { $0 !== inheritanceType }
@@ -74,6 +77,7 @@ extension KotlinTokenizer {
         let typeToken = inheritanceTokens.first(where: { $0.kind == .identifier })!
         let comps: [Token] = getKeyOnlyAssignments(simpleCases: simpleCases, declaration: declaration, typeToken: typeToken)
         
+        let getterRawValue = [lineBreak] + indent(makeGetterForEnumRawValue(declaration: declaration,typeToken: typeToken))
         let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
         let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
             .map { tokenize($0, node: declaration) }
@@ -81,6 +85,7 @@ extension KotlinTokenizer {
             .prefix(with: lineBreak)
         let bodyTokens = [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
             indent(comps) + [declaration.newToken(.delimiter, ";"), lineBreak] +
+            getterRawValue +
             initFromRawTokens +
             indent(otherMemberTokens).prefix(with: lineBreak) +
             [lineBreak, declaration.newToken(.endOfScope, "}")]
@@ -238,6 +243,26 @@ private extension KotlinTokenizer {
                     lineBreak,
                     d.newToken(.endOfScope, "}")
         ]
+    }
+    
+    func makeGetterForEnumRawValue(declaration d: EnumDeclaration,typeToken: Token) -> [Token] {
+        let space = d.newToken(.space, " ")
+        let lineBreak = d.newToken(.linebreak, "\n")
+        return [
+            d.newToken(.keyword, "val"),
+            space,
+            d.newToken(.identifier, "rawValue"),
+            lineBreak ] +
+            indent([
+                d.newToken(.keyword, "get"),
+                d.newToken(.startOfScope, "("),
+                d.newToken(.endOfScope, ")"),
+                space,
+                d.newToken(.symbol, "="),
+                space,
+                d.newToken(.identifier, "name"),
+                lineBreak
+                ])
     }
     
     func makeGetterForEnumFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
