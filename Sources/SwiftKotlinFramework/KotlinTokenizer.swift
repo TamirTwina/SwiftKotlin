@@ -420,7 +420,12 @@ public class KotlinTokenizer: SwiftTokenizer {
                 //simpleCases == members.count --> key only Enum
                 if simpleCases.count == declaration.members.count {
                     return tokenizeSimpleValueOnlyEnum(declaration:declaration, simpleCases: simpleCases)
-                } else {
+                } else if let shouldIgnoreAttributes = declaration.attributes.first?.name.textDescription
+                    , shouldIgnoreAttributes == "objc" {
+                            return tokenizeOjbcValueEnum(declaration:declaration, simpleCases: simpleCases)
+                        }
+                        
+                else {
                     return tokenizeSimpleValueEnum(declaration:declaration, simpleCases: simpleCases)
                 }
             } else {

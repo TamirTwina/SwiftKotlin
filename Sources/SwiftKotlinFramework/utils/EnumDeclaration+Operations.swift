@@ -142,6 +142,54 @@ extension KotlinTokenizer {
             [lineBreak, declaration.newToken(.endOfScope, "}")]
         return headTokens + bodyTokens
     }
+    
+    func tokenizeOjbcValueEnum(declaration: EnumDeclaration, simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
+        let space = declaration.newToken(.space, " ")
+        let lineBreak = declaration.newToken(.linebreak, "\n")
+        let modifierTokens = declaration.accessLevelModifier.map { tokenize($0, node: declaration) } ?? []
+        let inheritanceTokens = declaration.typeInheritanceClause.map { tokenize($0, node: declaration) } ?? []
+        let inheritanceType = declaration.typeInheritanceClause!.typeInheritanceList.first!
+        let otherInheritances = declaration.typeInheritanceClause!.typeInheritanceList.filter { $0 !== inheritanceType }
+        let rawCases = declaration.members.compactMap { $0.rawValueStyleEnumCase }
+
+        let initTokens = [
+            declaration.newToken(.startOfScope, "("),
+            declaration.newToken(.keyword, "val"),
+            space,
+            declaration.newToken(.identifier, "rawValue"),
+            declaration.newToken(.delimiter, ":"),
+            space
+            ] + tokenize(inheritanceType, node: declaration) +
+            [declaration.newToken(.endOfScope, ")")]
+        let headTokens = [
+            modifierTokens,
+            [declaration.newToken(.keyword, "enum")],
+            [declaration.newToken(.keyword, "class")],
+            [declaration.newToken(.identifier, declaration.name)],
+            initTokens,
+            otherInheritances.isEmpty ? [] : [declaration.newToken(.delimiter, ":")],
+            otherInheritances.map { tokenize($0, node: declaration) }.joined(tokens: [declaration.newToken(.delimiter, ", "), lineBreak])
+        ].joined(token: space)
+
+        let typeToken = inheritanceTokens.first(where: { $0.kind == .identifier })!
+        let comps: [Token]
+        if simpleCases.count > 0 {
+            comps = getSimpleAssignments(simpleCases: simpleCases, declaration: declaration, typeToken: typeToken)
+        } else {
+            comps = getAssignments(rawCases: rawCases, declaration: declaration, typeToken: typeToken)
+        }
+        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
+        let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
+            .map { tokenize($0, node: declaration) }
+            .joined(token: lineBreak)
+            .prefix(with: lineBreak)
+        let bodyTokens = [space, declaration.newToken(.startOfScope, "{"), lineBreak] +
+            indent(comps) + [declaration.newToken(.delimiter, ";"), lineBreak] +
+            initFromRawTokens +
+            indent(otherMemberTokens).prefix(with: lineBreak) +
+            [lineBreak, declaration.newToken(.endOfScope, "}")]
+        return headTokens + bodyTokens
+    }
 
     func tokenizeSealedClassEnum(declaration: EnumDeclaration, simpleCases: [AST.EnumDeclaration.UnionStyleEnumCase.Case]) -> [Token] {
         let space = declaration.newToken(.space, " ")
@@ -260,7 +308,7 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.symbol, "="),
                 space,
-                d.newToken(.identifier, "name"),
+                d.newToken(.identifier, "rawValue"),
                 lineBreak
                 ])
     }
@@ -282,7 +330,7 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.keyword, "get"),
                 d.newToken(.startOfScope, "("),
-                d.newToken(.identifier, "name"),
+                d.newToken(.identifier, "rawValue"),
                 d.newToken(.delimiter, ":"),
                 space,
                 typeToken,
@@ -300,11 +348,11 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.identifier, "it"),
                 d.newToken(.delimiter, "."),
-                d.newToken(.identifier, "name"),
+                d.newToken(.identifier, "rawValue"),
                 space,
                 d.newToken(.symbol, "=="),
                 space,
-                d.newToken(.identifier, "name"),
+                d.newToken(.identifier, "rawValue"),
                 space,
                 d.newToken(.endOfScope, "}")
                 ]) + [
