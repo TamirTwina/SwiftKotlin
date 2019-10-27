@@ -78,7 +78,7 @@ extension KotlinTokenizer {
         let comps: [Token] = getKeyOnlyAssignments(simpleCases: simpleCases, declaration: declaration, typeToken: typeToken)
         
         let getterRawValue = [lineBreak] + indent(makeGetterForEnumRawValue(declaration: declaration,typeToken: typeToken))
-        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
+        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken, useRawValue:false))
         let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
             .map { tokenize($0, node: declaration) }
             .joined(token: lineBreak)
@@ -178,7 +178,7 @@ extension KotlinTokenizer {
         } else {
             comps = getAssignments(rawCases: rawCases, declaration: declaration, typeToken: typeToken)
         }
-        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken))
+        let initFromRawTokens = [lineBreak] + indent(makeGetterForEnumFromRawFunc(declaration: declaration, typeToken:typeToken, useRawValue: true))
         let otherMemberTokens = declaration.members.filter { $0.unionStyleEnumCase == nil && $0.rawValueStyleEnumCase == nil }
             .map { tokenize($0, node: declaration) }
             .joined(token: lineBreak)
@@ -308,12 +308,12 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.symbol, "="),
                 space,
-                d.newToken(.identifier, "rawValue"),
+                d.newToken(.identifier, "name"),
                 lineBreak
                 ])
     }
     
-    func makeGetterForEnumFromRawFunc(declaration d: EnumDeclaration, typeToken: Token) -> [Token] {
+    func makeGetterForEnumFromRawFunc(declaration d: EnumDeclaration, typeToken: Token, useRawValue: Bool) -> [Token] {
         let space = d.newToken(.space, " ")
         let lineBreak = d.newToken(.linebreak, "\n")
         return [
@@ -330,7 +330,7 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.keyword, "get"),
                 d.newToken(.startOfScope, "("),
-                d.newToken(.identifier, "rawValue"),
+                d.newToken(.identifier, useRawValue ? "rawValue" : "name"),
                 d.newToken(.delimiter, ":"),
                 space,
                 typeToken,
@@ -348,11 +348,11 @@ private extension KotlinTokenizer {
                 space,
                 d.newToken(.identifier, "it"),
                 d.newToken(.delimiter, "."),
-                d.newToken(.identifier, "rawValue"),
+                d.newToken(.identifier, useRawValue ? "rawValue" : "name"),
                 space,
                 d.newToken(.symbol, "=="),
                 space,
-                d.newToken(.identifier, "rawValue"),
+                d.newToken(.identifier, useRawValue ? "rawValue" : "name"),
                 space,
                 d.newToken(.endOfScope, "}")
                 ]) + [
