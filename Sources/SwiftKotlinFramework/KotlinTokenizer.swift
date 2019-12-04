@@ -418,7 +418,7 @@ public class KotlinTokenizer: SwiftTokenizer {
         if !simpleCases.contains(where: { $0.tuple != nil }) {
             if declaration.typeInheritanceClause != nil {
                 //simpleCases == members.count --> key only Enum
-                if simpleCases.count == declaration.members.count {
+                if simpleCases.count == declaration.members.count && declaration.attributes.count == 0 {
                     return tokenizeSimpleValueOnlyEnum(declaration:declaration, simpleCases: simpleCases)
                 } else if let shouldIgnoreAttributes = declaration.attributes.first?.name.textDescription
                     , shouldIgnoreAttributes == "objc" {

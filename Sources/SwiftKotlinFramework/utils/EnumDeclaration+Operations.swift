@@ -161,8 +161,10 @@ extension KotlinTokenizer {
             space
             ] + tokenize(inheritanceType, node: declaration) +
             [declaration.newToken(.endOfScope, ")")]
+        let formattedModTokens: [Token] = modifierTokens.map { declaration.newToken($0.kind, $0.value)
+        }
         let headTokens = [
-            modifierTokens,
+            formattedModTokens,
             [declaration.newToken(.keyword, "enum")],
             [declaration.newToken(.keyword, "class")],
             [declaration.newToken(.identifier, declaration.name)],
