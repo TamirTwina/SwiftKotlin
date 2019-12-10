@@ -27,10 +27,12 @@ public class KotlinTokenizer: SwiftTokenizer {
         let modifierTokens = declaration.modifiers.map { tokenize($0, node: declaration) }
             .joined(token: declaration.newToken(.space, " "))
         let genericParameterClauseTokens = declaration.genericParameterClause.map { tokenize($0, node: declaration) } ?? []
+        let formattedModTokens: [Token] = modifierTokens.map { declaration.newToken($0.kind, $0.value)
+        }
         
         let headTokens = [
             attrsTokens,
-            modifierTokens,
+            formattedModTokens,
             [declaration.newToken(.keyword, "fun")],
             genericParameterClauseTokens
         ].joined(token: declaration.newToken(.space, " "))
